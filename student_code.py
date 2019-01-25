@@ -24,7 +24,15 @@ class KnowledgeBase(object):
             fact (Fact or Rule): Fact or Rule we're asserting in the format produced by read.py
         """
         print("Asserting {!r}".format(fact))
-        
+
+        # If the fact doesn't exist, add to KB
+        if isinstance(fact, Fact) and fact not in self.facts:
+            self.facts.append(fact)
+        elif isinstance(fact, Rule) and fact not in self.rules:
+            self.rules.append(fact)
+        else:
+            print("either exists or not a fact or rule!")
+
     def kb_ask(self, fact):
         """Ask if a fact is in the KB
 
@@ -35,3 +43,21 @@ class KnowledgeBase(object):
             ListOfBindings|False - ListOfBindings if result found, False otherwise
         """
         print("Asking {!r}".format(fact))
+
+        bindings = None
+        lb = ListOfBindings()
+#        print("lb len before:")
+#        print(len(lb))
+
+        for item in self.facts:
+            bindings = match(item.statement, fact.statement, None)
+            if bindings:
+                lb.add_bindings(bindings, fact)
+
+#        print("lb len after:")
+#        print(len(lb))
+
+        if len(lb) > 0:
+            return lb
+        else:
+            return False
