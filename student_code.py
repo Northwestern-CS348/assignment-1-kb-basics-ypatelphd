@@ -28,8 +28,8 @@ class KnowledgeBase(object):
         # If the fact doesn't exist, add to KB
         if isinstance(fact, Fact) and fact not in self.facts:
             self.facts.append(fact)
-        elif isinstance(fact, Rule) and fact not in self.rules:
-            self.rules.append(fact)
+#        elif isinstance(fact, Rule) and fact not in self.rules:
+#            self.rules.append(fact)
         else:
             print("either exists or not a fact or rule!")
 
@@ -52,7 +52,7 @@ class KnowledgeBase(object):
         for item in self.facts:
             bindings = match(item.statement, fact.statement, None)
             if bindings:
-                lb.add_bindings(bindings, fact)
+                lb.add_bindings(bindings, item)
 
 #        print("lb len after:")
 #        print(len(lb))
